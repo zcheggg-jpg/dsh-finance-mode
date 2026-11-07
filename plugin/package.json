@@ -1,0 +1,26 @@
+{
+  "name": "dsh-okx-tradingagents",
+  "version": "1.5.0",
+  "private": true,
+  "type": "module",
+  "description": "TradingAgents-style BTC/ETH research MCP for DSH, with OKX data and a local paper-trading ledger.",
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "preset.patch.yml",
+    "server.mjs",
+    "lib/*.mjs",
+    "data/*.json",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
