@@ -1,0 +1,18 @@
+# Template only. Run install.ps1 / install.sh to rewrite this file with
+# absolute paths for your machine before installing the bundle.
+- insert:
+    - id: okx-tradingagents-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: okx
+        transport: stdio
+        command: node
+        args:
+          - 'server.mjs'
+        cwd: !!js "process.env.DSH_PROFILE_DIR + '/node_modules/dsh-okx-tradingagents'"
+        env:
+          OKX_REPORT_DIR: !!js "(process.env.DSH_HOME || process.env.USERPROFILE || process.env.HOME) + '/okx-tradingagents/reports'"
+          OKX_PAPER_STATE: !!js "(process.env.DSH_HOME || process.env.USERPROFILE || process.env.HOME) + '/okx-tradingagents/paper/account.json'"
+          OKX_LIVE_STATE: !!js "(process.env.DSH_HOME || process.env.USERPROFILE || process.env.HOME) + '/okx-tradingagents/live/state.json'"
+        toolCallTimeoutMs: 180000
+        failOnStartupError: true
