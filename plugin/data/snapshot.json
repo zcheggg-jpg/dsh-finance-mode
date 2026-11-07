@@ -1,0 +1,612 @@
+{
+  "generatedAt": "2026-11-07T14:30:00+08:00",
+  "generatedBy": "DSH OKX/TradingAgents MCP bootstrap",
+  "marketContext": {
+    "source": "MyToken public market page (captured 2026-11-07 14:33 CST)",
+    "capturedAt": "2026-11-07T14:33:00+08:00",
+    "sentiment": {
+      "label": "Extreme Fear",
+      "index": 25,
+      "change": -10.71
+    },
+    "livePrices": {
+      "BTC": 76068.2,
+      "ETH": 2246.91
+    },
+    "change24hPct": {
+      "BTC": 0.53,
+      "ETH": 0.98
+    },
+    "change7dPct": {
+      "BTC": -1.5,
+      "ETH": 0.21
+    },
+    "openInterestUsd": 83519706728.95,
+    "openInterestChangePct": 0.83,
+    "liquidations24hUsd": 24108941.11,
+    "lastMajorLiquidation": {
+      "date": "2026-11-05",
+      "totalUsd": 1229191155.64,
+      "longUsd": 136017045.4,
+      "shortUsd": 1093174110.24,
+      "note": "88.9% short-side liquidation; price still closed -6.2%, showing spot supply absorbed the squeeze."
+    },
+    "etfFlows": {
+      "BTC": "net negative on 2026-11-06",
+      "ETH": "net negative on 2026-11-06"
+    }
+  },
+  "symbols": {
+    "BTC": {
+      "source": "Stooq BTCUSD quote/history (captured 2026-11-07 14:25 CST)",
+      "sourceUrl": "https://stooq.com/q/?s=btcusd",
+      "price": 75846,
+      "quoteTime": "2026-11-06T22:01:20",
+      "quote": {
+        "price": 75846,
+        "quoteTime": "2026-11-06T22:01:20",
+        "change24hPct": 0.28,
+        "open24h": 75642.3,
+        "high24h": 76291.6,
+        "low24h": 74822.2,
+        "prevClose": 75637.8,
+        "high52w": 107478,
+        "low52w": 57755
+      },
+      "candles": [
+        {
+          "time": "2026-09-14",
+          "open": 77264.8,
+          "high": 79552.5,
+          "low": 76376.1,
+          "close": 78738.2,
+          "volume": null
+        },
+        {
+          "time": "2026-09-15",
+          "open": 78738.2,
+          "high": 78825.1,
+          "low": 74954,
+          "close": 75429,
+          "volume": null
+        },
+        {
+          "time": "2026-09-16",
+          "open": 75430.7,
+          "high": 76468.9,
+          "low": 75003.5,
+          "close": 75911.6,
+          "volume": null
+        },
+        {
+          "time": "2026-09-17",
+          "open": 75911.6,
+          "high": 77067.1,
+          "low": 75588.6,
+          "close": 76363.8,
+          "volume": null
+        },
+        {
+          "time": "2026-09-18",
+          "open": 76362.6,
+          "high": 81343.1,
+          "low": 76209,
+          "close": 81059.6,
+          "volume": null
+        },
+        {
+          "time": "2026-09-21",
+          "open": 80920.5,
+          "high": 87360.6,
+          "low": 80780,
+          "close": 86554.6,
+          "volume": null
+        },
+        {
+          "time": "2026-09-22",
+          "open": 86554.6,
+          "high": 86725.7,
+          "low": 85070.9,
+          "close": 86154.1,
+          "volume": null
+        },
+        {
+          "time": "2026-09-23",
+          "open": 86151.9,
+          "high": 87261.5,
+          "low": 83488.4,
+          "close": 84400.2,
+          "volume": null
+        },
+        {
+          "time": "2026-09-24",
+          "open": 84399.5,
+          "high": 84909.1,
+          "low": 82879.5,
+          "close": 84332.6,
+          "volume": null
+        },
+        {
+          "time": "2026-09-25",
+          "open": 84332.6,
+          "high": 85237.6,
+          "low": 83157.3,
+          "close": 83975,
+          "volume": null
+        },
+        {
+          "time": "2026-09-28",
+          "open": 84667.5,
+          "high": 84984.1,
+          "low": 82547,
+          "close": 83175.9,
+          "volume": null
+        },
+        {
+          "time": "2026-09-29",
+          "open": 83184.9,
+          "high": 84497.9,
+          "low": 82744.4,
+          "close": 83464,
+          "volume": null
+        },
+        {
+          "time": "2026-09-30",
+          "open": 83464,
+          "high": 85590.7,
+          "low": 82918.7,
+          "close": 83707.2,
+          "volume": null
+        },
+        {
+          "time": "2026-10-01",
+          "open": 83711.4,
+          "high": 84897.5,
+          "low": 83131.7,
+          "close": 84534.4,
+          "volume": null
+        },
+        {
+          "time": "2026-10-02",
+          "open": 84534.4,
+          "high": 87048.1,
+          "low": 83872.2,
+          "close": 84346.9,
+          "volume": null
+        },
+        {
+          "time": "2026-10-05",
+          "open": 85840.5,
+          "high": 86979.2,
+          "low": 84963.9,
+          "close": 85934.2,
+          "volume": null
+        },
+        {
+          "time": "2026-10-06",
+          "open": 85926.8,
+          "high": 86675.3,
+          "low": 85103.4,
+          "close": 85608.3,
+          "volume": null
+        },
+        {
+          "time": "2026-10-07",
+          "open": 85609.1,
+          "high": 85650.1,
+          "low": 82806.1,
+          "close": 83131.7,
+          "volume": null
+        },
+        {
+          "time": "2026-10-08",
+          "open": 83130.3,
+          "high": 83483.6,
+          "low": 80363.2,
+          "close": 81629.9,
+          "volume": null
+        },
+        {
+          "time": "2026-10-09",
+          "open": 81643.3,
+          "high": 83419.5,
+          "low": 81555.4,
+          "close": 82314,
+          "volume": null
+        },
+        {
+          "time": "2026-10-12",
+          "open": 83446.6,
+          "high": 84248.8,
+          "low": 82211.8,
+          "close": 82465.3,
+          "volume": null
+        },
+        {
+          "time": "2026-10-13",
+          "open": 82465.3,
+          "high": 84043.5,
+          "low": 80960.5,
+          "close": 83457.8,
+          "volume": null
+        },
+        {
+          "time": "2026-10-14",
+          "open": 83457.8,
+          "high": 84025.8,
+          "low": 81451.1,
+          "close": 81695.3,
+          "volume": null
+        },
+        {
+          "time": "2026-10-15",
+          "open": 81695.3,
+          "high": 82542.9,
+          "low": 79742.9,
+          "close": 82333.6,
+          "volume": null
+        },
+        {
+          "time": "2026-10-16",
+          "open": 82343.8,
+          "high": 82810.2,
+          "low": 80723.9,
+          "close": 81563.4,
+          "volume": null
+        },
+        {
+          "time": "2026-10-19",
+          "open": 81130.6,
+          "high": 83015.7,
+          "low": 81130.6,
+          "close": 81981.3,
+          "volume": null
+        },
+        {
+          "time": "2026-10-20",
+          "open": 81996.7,
+          "high": 83237.6,
+          "low": 81100.3,
+          "close": 82920.1,
+          "volume": null
+        },
+        {
+          "time": "2026-10-21",
+          "open": 82903.6,
+          "high": 84788.8,
+          "low": 82527.9,
+          "close": 84747.1,
+          "volume": null
+        },
+        {
+          "time": "2026-10-22",
+          "open": 84751.5,
+          "high": 84751.5,
+          "low": 80848.5,
+          "close": 81396.1,
+          "volume": null
+        },
+        {
+          "time": "2026-10-23",
+          "open": 81402.7,
+          "high": 81968.5,
+          "low": 81025.4,
+          "close": 81193.2,
+          "volume": null
+        },
+        {
+          "time": "2026-10-26",
+          "open": 80372.2,
+          "high": 80713.5,
+          "low": 79266.9,
+          "close": 79874.7,
+          "volume": null
+        },
+        {
+          "time": "2026-10-27",
+          "open": 79865.8,
+          "high": 81202.4,
+          "low": 79382,
+          "close": 80815.9,
+          "volume": null
+        },
+        {
+          "time": "2026-10-28",
+          "open": 80820.4,
+          "high": 81700,
+          "low": 80300.6,
+          "close": 81201.1,
+          "volume": null
+        },
+        {
+          "time": "2026-10-29",
+          "open": 81185.3,
+          "high": 81855.8,
+          "low": 78318.9,
+          "close": 78918.5,
+          "volume": null
+        },
+        {
+          "time": "2026-10-30",
+          "open": 78879.2,
+          "high": 78909.1,
+          "low": 76199.1,
+          "close": 76835.6,
+          "volume": null
+        },
+        {
+          "time": "2026-11-02",
+          "open": 77811.3,
+          "high": 78794.1,
+          "low": 76616,
+          "close": 76873.4,
+          "volume": null
+        },
+        {
+          "time": "2026-11-03",
+          "open": 76846.8,
+          "high": 77962.9,
+          "low": 76276.4,
+          "close": 77798,
+          "volume": null
+        },
+        {
+          "time": "2026-11-04",
+          "open": 77816.1,
+          "high": 80971.6,
+          "low": 75619.5,
+          "close": 80637.3,
+          "volume": null
+        },
+        {
+          "time": "2026-11-05",
+          "open": 80636,
+          "high": 80820.4,
+          "low": 75510.4,
+          "close": 75637.8,
+          "volume": null
+        },
+        {
+          "time": "2026-11-06",
+          "open": 75642.3,
+          "high": 76291.6,
+          "low": 74822.2,
+          "close": 75846,
+          "volume": null
+        }
+      ],
+      "analysis": {
+        "price": 75846,
+        "asOf": "2026-11-06T22:01:20",
+        "change24hPct": 0.28,
+        "open24h": 75642.3,
+        "high24h": 76291.6,
+        "low24h": 74822.2,
+        "prevClose": 75637.8,
+        "high52w": 107478,
+        "low52w": 57755,
+        "drawdownFromHighPct": -29.43,
+        "returns": {
+          "d1": 0.28,
+          "d5": -6.59,
+          "d20": -1.86,
+          "d60": 0.06
+        },
+        "ema": {
+          "ema20": 79738.22,
+          "ema50": 76781.29,
+          "ema200": null
+        },
+        "rsi14": 44.6,
+        "macd": {
+          "line": 1003.38,
+          "signal": 2245.14,
+          "histogram": -1241.76
+        },
+        "bollinger": {
+          "upper": 88211.84,
+          "mid": 81645.25,
+          "lower": 75078.66,
+          "positionPct": 6
+        },
+        "atr14": 3337.19,
+        "atrPct": 4.4,
+        "realizedVol20Pct": 75.1,
+        "realizedVol60Pct": 71.6,
+        "volumeRatio20": null,
+        "levels": {
+          "high20": 87360.6,
+          "low20": 74822.2,
+          "high60": 87360.6,
+          "low60": 57755,
+          "high252": 97889.5,
+          "low252": 57755,
+          "pivot": 75653.27,
+          "r1": 76484.33,
+          "s1": 75014.93,
+          "stopLong": 74448.09,
+          "stopShort": 80851.79
+        },
+        "score": -66.4,
+        "bias": "Bearish",
+        "regime": "bearish range / lower highs",
+        "signals": [
+          {
+            "name": "price_vs_ema20",
+            "value": -1,
+            "weight": 1.4,
+            "detail": "75846 vs 79738.22"
+          },
+          {
+            "name": "price_vs_ema50",
+            "value": -1,
+            "weight": 1.2,
+            "detail": "75846 vs 76781.29"
+          },
+          {
+            "name": "ema20_vs_ema50",
+            "value": 1,
+            "weight": 0.9,
+            "detail": "79738.22 vs 76781.29"
+          },
+          {
+            "name": "macd_histogram",
+            "value": -1,
+            "weight": 1,
+            "detail": "-1241.757"
+          },
+          {
+            "name": "return_20d",
+            "value": -1,
+            "weight": 0.9,
+            "detail": "-1.86%"
+          },
+          {
+            "name": "return_5d",
+            "value": -1,
+            "weight": 0.5,
+            "detail": "-6.59%"
+          },
+          {
+            "name": "rsi14",
+            "value": -0.5,
+            "weight": 0.7,
+            "detail": "44.6"
+          },
+          {
+            "name": "bollinger_position",
+            "value": -0.5,
+            "weight": 0.4,
+            "detail": "6%"
+          }
+        ],
+        "candles": 120
+      }
+    },
+    "ETH": {
+      "source": "Stooq ETH.V quote/history (captured 2026-11-07 14:25 CST)",
+      "sourceUrl": "https://stooq.com/q/?s=eth.v",
+      "price": 2243.75,
+      "quoteTime": "2026-11-07T07:29:44",
+      "quote": {
+        "price": 2243.75,
+        "quoteTime": "2026-11-07T07:29:44",
+        "change24hPct": 0.32,
+        "open24h": 2236.46,
+        "high24h": 2249.76,
+        "low24h": 2234.62,
+        "prevClose": 2236.52,
+        "high52w": 3649.38,
+        "low52w": 1505.01
+      },
+      "candles": null,
+      "analysis": {
+        "price": 2243.75,
+        "asOf": "2026-11-07T07:29:44",
+        "change24hPct": 0.32,
+        "open24h": 2236.46,
+        "high24h": 2249.76,
+        "low24h": 2234.62,
+        "prevClose": 2236.52,
+        "high52w": 3649.38,
+        "low52w": 1505.01,
+        "drawdownFromHighPct": -38.52,
+        "returns": {
+          "d1": 0.32,
+          "d5": -0.51,
+          "d20": -5.25,
+          "d60": -9.6
+        },
+        "ema": {
+          "ema20": 2326.73,
+          "ema50": 2389.3,
+          "ema200": null
+        },
+        "rsi14": 41,
+        "macd": {
+          "line": -58.48,
+          "signal": -59.75,
+          "histogram": 1.27
+        },
+        "bollinger": {
+          "upper": 2485.97,
+          "mid": 2326.97,
+          "lower": 2167.97,
+          "positionPct": 24
+        },
+        "atr14": 89.61,
+        "atrPct": 3.99,
+        "realizedVol20Pct": 57.7,
+        "realizedVol60Pct": 48.3,
+        "volumeRatio20": null,
+        "levels": {
+          "high20": 2520.66,
+          "low20": 2172.43,
+          "high60": 2806.27,
+          "low60": 2172.43,
+          "high252": 2806.27,
+          "low252": 1505.01,
+          "pivot": 2242.71,
+          "r1": 2250.8,
+          "s1": 2235.66,
+          "stopLong": 2161.57,
+          "stopShort": 2378.16
+        },
+        "score": -63.6,
+        "bias": "Bearish",
+        "regime": "downtrend",
+        "signals": [
+          {
+            "name": "price_vs_ema20",
+            "value": -1,
+            "weight": 1.4,
+            "detail": "2243.75 vs 2326.73"
+          },
+          {
+            "name": "price_vs_ema50",
+            "value": -1,
+            "weight": 1.2,
+            "detail": "2243.75 vs 2389.3"
+          },
+          {
+            "name": "ema20_vs_ema50",
+            "value": -1,
+            "weight": 0.9,
+            "detail": "2326.73 vs 2389.3"
+          },
+          {
+            "name": "macd_histogram",
+            "value": 1,
+            "weight": 1,
+            "detail": "1.268"
+          },
+          {
+            "name": "return_20d",
+            "value": -1,
+            "weight": 0.9,
+            "detail": "-5.25%"
+          },
+          {
+            "name": "return_5d",
+            "value": -1,
+            "weight": 0.5,
+            "detail": "-0.51%"
+          },
+          {
+            "name": "rsi14",
+            "value": -0.5,
+            "weight": 0.7,
+            "detail": "41"
+          },
+          {
+            "name": "bollinger_position",
+            "value": -0.5,
+            "weight": 0.4,
+            "detail": "24%"
+          }
+        ],
+        "candles": 160
+      }
+    }
+  }
+}
