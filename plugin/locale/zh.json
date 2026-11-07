@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OKX TradingAgents 研究台",
+    "description": "只读接入 OKX/BTC/ETH 行情，并运行 TradingAgents 式的多头、空头与风险辩论，输出具体点位。"
+  }
+}
