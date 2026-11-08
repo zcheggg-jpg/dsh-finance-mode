@@ -10,6 +10,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runBacktest } from '../plugin/lib/quant/backtest.mjs';
 import { DEFAULT_PARAMS, validateParams } from '../plugin/lib/quant/strategy-trend.mjs';
+import { isQuoteStale, quoteAgeMs } from '../plugin/lib/data.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -94,5 +95,13 @@ check('rejects riskPct > 1', validateParams({ riskPct: 5 }).ok === false);
 check('rejects emaFast >= emaSlow', validateParams({ emaFast: 60, emaSlow: 50 }).ok === false);
 check('accepts defaults', validateParams(DEFAULT_PARAMS).ok === true);
 
+console.log('\n[4] quote staleness (Stooq fallback must not lie)');
+const iso = (hoursAgo) => new Date(Date.now() - hoursAgo * 3600e3).toISOString();
+check('1h old quote is fresh', isQuoteStale(iso(1)) === false);
+check('2-day old quote is stale', isQuoteStale(iso(48)) === true);
+check('unparseable timestamp is stale', isQuoteStale('not-a-date') === true);
+check('missing timestamp is stale', isQuoteStale(null) === true);
+check('10h future timestamp is stale', isQuoteStale(iso(-10)) === true);
+check('quoteAgeMs returns null for garbage', quoteAgeMs('x') === null);
 console.log(`\n${failures === 0 ? 'ALL CHECKS PASSED' : failures + ' CHECK(S) FAILED'}`);
 process.exit(failures === 0 ? 0 : 1);

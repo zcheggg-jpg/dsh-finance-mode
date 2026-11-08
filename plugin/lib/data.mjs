@@ -272,10 +272,25 @@ async function fetchStooq(symbol, pages = 4) {
       low52w: quote.low52w,
     },
     candles,
-    stale: false,
+    stale: isQuoteStale(quote.quoteTime),
+    quoteAgeHours: Number(((quoteAgeMs(quote.quoteTime) ?? Number.NaN) / 3600000).toFixed(1)),
   };
 }
 
+/** Quote age helpers. A fallback quote is only trustworthy if it is recent;
+ *  reporting stale:false on a two-day-old price is how a strategy buys the wrong level. */
+export function quoteAgeMs(quoteTime) {
+  const t = Date.parse(String(quoteTime || ''));
+  if (!Number.isFinite(t)) return null;
+  return Date.now() - t;
+}
+
+export function isQuoteStale(quoteTime, maxAgeMs = 36 * 3600 * 1000) {
+  const age = quoteAgeMs(quoteTime);
+  if (age == null) return true;          // unparseable timestamp → do not trust
+  if (age < -2 * 3600 * 1000) return true; // "future" by >2h → clock/format mismatch
+  return age > maxAgeMs;
+}
 function okxRequest(pathname, { timeoutMs = 4500 } = {}) {
   return new Promise((resolve, reject) => {
     const u = new URL(`https://www.okx.com${pathname}`);
