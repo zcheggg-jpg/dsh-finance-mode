@@ -15,7 +15,14 @@ Write-Host "DSH home: $DshHome"
 if (-not (Test-Path $PluginSource)) { throw "plugin/ not found next to install.ps1" }
 if (-not (Test-Path (Join-Path $SkillSource "SKILL.md"))) { throw "skill/SKILL.md not found" }
 
-if (Test-Path $PluginTarget) { Remove-Item $PluginTarget -Recurse -Force }
+if (Test-Path $PluginTarget) {
+  try {
+    Remove-Item $PluginTarget -Recurse -Force -ErrorAction Stop
+  } catch {
+    # A running MCP server may hold handles. Fall back to overwriting in place.
+    Write-Warning "Could not remove $PluginTarget ($($_.Exception.Message)); overwriting in place. Restart DSH afterwards."
+  }
+}
 New-Item -ItemType Directory -Force -Path $PluginTarget | Out-Null
 Copy-Item (Join-Path $PluginSource "*") $PluginTarget -Recurse -Force
 
@@ -33,13 +40,21 @@ function YamlQuote([string]$value) {
 # Absolute paths are written into the installed copy so the bundle is not tied
 # to the repository checkout.
 $DshExe = $null
-$proc = Get-Process -Name "DSH Desktop" -ErrorAction SilentlyContinue | Where-Object { $_.Path } | Select-Object -First 1
-if ($proc) { $DshExe = $proc.Path }
+# The product ships under two names depending on the build channel.
+$procNames = @("DSH Desktop", "DeepSeek Harness")
+foreach ($name in $procNames) {
+  if ($DshExe) { break }
+  $proc = Get-Process -Name $name -ErrorAction SilentlyContinue | Where-Object { $_.Path } | Select-Object -First 1
+  if ($proc) { $DshExe = $proc.Path }
+}
 if (-not $DshExe) {
   $candidates = @(
     (Join-Path $env:LOCALAPPDATA "Programs\DSH Desktop\DSH Desktop.exe"),
+    (Join-Path $env:LOCALAPPDATA "Programs\DeepSeek Harness\DeepSeek Harness.exe"),
     (Join-Path $env:ProgramFiles "DSH Desktop\DSH Desktop.exe"),
-    (Join-Path ${env:ProgramFiles(x86)} "DSH Desktop\DSH Desktop.exe")
+    (Join-Path $env:ProgramFiles "DeepSeek Harness\DeepSeek Harness.exe"),
+    (Join-Path ${env:ProgramFiles(x86)} "DSH Desktop\DSH Desktop.exe"),
+    (Join-Path ${env:ProgramFiles(x86)} "DeepSeek Harness\DeepSeek Harness.exe")
   )
   $DshExe = $candidates | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
 }
