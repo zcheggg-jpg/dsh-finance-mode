@@ -47,6 +47,19 @@ LLM 不进入执行环，只写配置与提出建议；参数有硬边界（`PAR
 回测引擎按这些规格量化数量，并统计 `skippedSignals`。
 20 USDT 账户实测：收益率与 1000 USDT 几乎一致（+101.60% vs +101.61%），说明**规模不影响百分比收益**；但一年只能赚约 1.78 USDT，不值得承担实盘风险。
 
+## 3.5 小资金可行性（20 USDT 实测）
+
+把 OKX 真实 `lotSz/minSz` 写进回测后：
+
+| 账户 | 期末 | 总收益 | CAGR | 最大回撤 |
+|---|---|---|---|---|
+| 1000 USDT | 2016.07 | +101.61% | 8.91% | 14.04% |
+| 20 USDT | 40.32 | +101.60% | 8.91% | 14.04% |
+
+- **收益率与账户规模无关**，lot 量化误差可忽略 → 20 USDT 技术上能跑通全流程。
+- 但 8.91% 年化在 20 USDT 上 = 约 **1.78 USDT/年**，投入产出比不成立。
+- 建议：小资金停留在 paper；账户到 300–500 USDT 再上金丝雀（单笔 10–20 USDT）。
+
 ## 4. 执行层
 
 | 函数 | 作用 |
@@ -112,3 +125,6 @@ node scripts/runner-cli.mjs --once --dry-run
 node scripts/live-runner-cli.mjs                       # dry-run
 node scripts/live-runner-cli.mjs --live --confirm LIVE # 真实下单（需密钥）
 ```
+
+
+代码缺陷与修复状态见 [AUDIT.md](AUDIT.md)。

@@ -260,6 +260,7 @@ API key 建议：只开交易权限、关闭提币、绑定 IP、单独子账户
 plugin/                 DSH MCP bundle（server + lib + snapshot）
 plugin/lib/quant/       量化层：回测 / 策略 / 执行 / 引擎
 scripts/                回测与引擎 CLI + 自检脚本
+scripts/set-okx-keys.ps1  交互式配置 OKX 密钥（写入用户环境变量）
 skill/SKILL.md          DSH skill：一键分析入口
 docs/ARCHITECTURE.md    架构与讨论流程
 docs/QUANT.md           量化层设计、守卫与上线门槛
