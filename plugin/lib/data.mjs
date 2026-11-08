@@ -291,7 +291,7 @@ export function isQuoteStale(quoteTime, maxAgeMs = 36 * 3600 * 1000) {
   if (age < -2 * 3600 * 1000) return true; // "future" by >2h → clock/format mismatch
   return age > maxAgeMs;
 }
-function okxRequest(pathname, { timeoutMs = 4500 } = {}) {
+function okxRequest(pathname, { timeoutMs = 9000 } = {}) {
   return new Promise((resolve, reject) => {
     const u = new URL(`https://www.okx.com${pathname}`);
     const req = https.request(
