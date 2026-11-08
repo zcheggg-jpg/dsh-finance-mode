@@ -45,13 +45,25 @@ export function liveStatePath() {
   return path.resolve(process.env.OKX_LIVE_STATE || path.join(ROOT, 'live', 'state.json'));
 }
 
+function todayUtc8() {
+  // OKX daily counters reset at 00:00 UTC+8, not UTC.
+  const now = new Date();
+  const utc8 = new Date(now.getTime() + 8 * 3600 * 1000);
+  return utc8.toISOString().slice(0, 10);
+}
 function loadLiveState() {
   const file = liveStatePath();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayUtc8();
   let state;
   try {
     state = JSON.parse(fs.readFileSync(file, 'utf8'));
-  } catch {
+  } catch (err) {
+    if (fs.existsSync(file)) {
+      // FAIL CLOSED: a corrupt ledger must never silently reset the daily limit.
+      const backup = `${file}.corrupt-${Date.now()}`;
+      try { fs.copyFileSync(file, backup); } catch { /* best effort */ }
+      throw new Error(`live state unreadable (${err.message}); backed up to ${backup}. Refusing to trade until fixed.`);
+    }
     state = null;
   }
   if (!state || state.date !== today) {
@@ -88,12 +100,28 @@ function assertLiveConfig() {
   return status;
 }
 
-function request(method, requestPath, body = '') {
+let timeOffsetMs = 0;
+
+/** Signed requests must land within 30s of OKX server time (error 50102).
+ *  Call syncClock() once at startup, or after sleep/resume. */
+export async function syncClock() {
+  const started = Date.now();
+  const data = await request("GET", "/api/v5/public/time");
+  const serverMs = Number(data?.[0]?.ts);
+  if (!Number.isFinite(serverMs)) throw new Error("OKX returned no server time");
+  const rtt = Date.now() - started;
+  timeOffsetMs = Math.round(serverMs + rtt / 2 - Date.now());
+  return { serverMs, rttMs: rtt, offsetMs: timeOffsetMs };
+}
+
+export function clockOffsetMs() { return timeOffsetMs; }
+
+export function request(method, requestPath, body = '') {
   const key = process.env.OKX_API_KEY;
   const secret = process.env.OKX_API_SECRET;
   const passphrase = process.env.OKX_API_PASSPHRASE;
   if (!key || !secret || !passphrase) throw new Error('OKX API credentials are not configured');
-  const timestamp = new Date().toISOString();
+  const timestamp = new Date(Date.now() + timeOffsetMs).toISOString();
   const prehash = `${timestamp}${method}${requestPath}${body}`;
   const sign = crypto.createHmac('sha256', secret).update(prehash).digest('base64');
   return new Promise((resolve, reject) => {
