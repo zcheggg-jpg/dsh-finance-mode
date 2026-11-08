@@ -9,7 +9,7 @@ dsh-finance-mode
 ## 简介（GitHub Description）
 
 ```text
-一键金融模式 for DSH：TradingAgents 式 BTC/ETH 多空辩论、买入触发、模拟盘与受控实盘。One-click Finance Mode for DeepSeek Harness.
+一键金融模式 for DSH：TradingAgents 式 BTC/ETH 多空辩论、买入触发、模拟盘、可回测的确定性策略引擎与受控实盘执行。One-click Finance Mode for DeepSeek Harness.
 ```
 
 ## Topics
@@ -24,6 +24,8 @@ binance
 crypto
 paper-trading
 ai-agent
+backtesting
+quantitative-trading
 ```
 
 ## 置顶说明
