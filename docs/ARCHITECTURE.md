@@ -17,6 +17,12 @@ MCP plugin  okx (stdio)
   ├─ agents.mjs        TradingAgents 角色与辩论
   ├─ paper.mjs         本地模拟盘账本
   └─ report.mjs        Markdown/JSON + MCP resources
+  ├─ quant/history.mjs       OKX 历史K线分页 + 缓存
+  ├─ quant/strategy-*.mjs    确定性策略（趋势 / 动量轮动）
+  ├─ quant/backtest*.mjs     回测引擎（单标的 / 组合）
+  ├─ quant/execution.mjs     现货卖出 + 交易所侧 OCO 止损
+  ├─ quant/runner.mjs        常驻 paper 引擎 + 三道守卫
+  └─ quant/live-runner.mjs   实盘引擎（七道闸门，默认 dry-run）
   ▼
 DSH 对话 / 报告 / 模拟盘状态
 ```
@@ -142,6 +148,29 @@ DSH 里可用 `list_reports`、`read_report` 或 `read_mcp_resource` 读取。
 - 限价偏离最新价 ≤ 1%
 
 当前**没有**自动卖出/止损挂单。报告里的止损/目标是监控位；真正无人值守需要独立 runner 和交易所条件单，这是下一阶段。
+
+## 量化层（v1.6）
+
+MCP 工具负责研究、辩论与模拟盘；量化层负责可回测的确定性策略、常驻引擎与受控执行。
+
+```text
+策略信号（确定性，无 LLM）
+   ↓
+风控（额度 / 回撤 / 冷却 / KILL）
+   ↓
+执行（买入 → 成交确认 → 交易所侧 OCO 止损）
+   ↓
+账本 + 心跳 + 追加式决策日志
+```
+
+关键取舍：**LLM 不进入执行环**。模型只输出可审计的配置建议，参数有硬边界；
+速度、确定性与可回放性由代码保证。设计细节见 [QUANT.md](QUANT.md)。
+
+风险边界：
+
+- `runner.mjs` 只写本地 paper 账本，不触碰交易所。
+- `live-runner.mjs` 默认 dry-run；真实下单需要环境变量、密钥与 `confirm="LIVE"` 三重条件。
+- 真实下单路径尚未在交易所验证，必须先用 10 USDT 金丝雀确认成交与 OCO 挂单。
 
 ## 数据与失败模式
 

@@ -163,6 +163,35 @@ OKX public REST  ->  Stooq quote/history  ->  bundled snapshot
 
 `paper_auto` 只有在价格进入计划 `execution.entryZone` 时才模拟开仓；没到点位就返回 `wait`。
 
+## 量化层（v1.6 新增）
+
+MCP 工具负责「研究与模拟盘」；量化层负责「可回测的确定性策略 + 常驻引擎 + 受控执行」。
+
+| 模块 | 作用 |
+|---|---|
+| `plugin/lib/quant/history.mjs` | OKX 历史 K 线分页拉取 + 本地缓存 |
+| `plugin/lib/quant/strategy-trend.mjs` | 单标的趋势（EMA + ATR 止损） |
+| `plugin/lib/quant/strategy-momentum.mjs` | 动量轮动 + 波动率目标仓位 |
+| `plugin/lib/quant/backtest.mjs` | 事件驱动回测（无未来函数、双边成本、现金约束） |
+| `plugin/lib/quant/portfolio-backtest.mjs` | 多标的共享资金回测 + 真实 tick/lot/min 约束 |
+| `plugin/lib/quant/execution.mjs` | 现货卖出 + **交易所侧 OCO 止损** + 成交确认 |
+| `plugin/lib/quant/runner.mjs` | 常驻引擎（paper 账本）+ 三道硬守卫 |
+| `plugin/lib/quant/live-runner.mjs` | 实盘引擎（七道闸门 + 金丝雀限额，默认 dry-run） |
+
+回测结论（OKX 日线 2018-08 → 2026-11，扣 15 bps 双边成本）：
+
+| 策略 | 仓位模式 | CAGR | 最大回撤 | Sharpe |
+|---|---|---|---|---|
+| 单标的趋势 | 风险 0.5%/笔 | 5.30% | 7.11% | 0.93 |
+| 动量轮动 | 风险 1%/笔 | 5.44% | 8.04% | 1.11 |
+| 动量轮动 | 波动率目标 25% | 8.91% | 14.04% | 1.16 |
+| 动量轮动 | 波动率目标 50% | 16.62% | 25.87% | 1.15 |
+
+同期 BTC 买入持有 +1069.6%。**稳健策略必然跑输满仓持有，这是取舍而不是缺陷。**
+
+参数稳健性：趋势 18/18、轮动 24/24 组合全为正 → 收益不来自参数挑选。
+细节见 [docs/QUANT.md](docs/QUANT.md)。
+
 ## TradingAgents 关系
 
 角色顺序参考 [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)：
@@ -192,7 +221,13 @@ Analyst Team -> Bull/Bear Researchers -> Research Manager -> Trader
 - 限价偏离最新价 ≤ 1%
 - 只提交**限价买单**，不提供自动卖出/止损挂单
 
-当前**没有**无人值守的自动卖出/止损循环。报告里的止损/目标是监控位，不是交易所挂单。真正全自动需要独立常驻 runner、交易所条件单、断线重试、kill switch 和模拟盘样本；不要用当前版本直接跑大资金。
+**v1.6 起**量化层提供了常驻 runner 与交易所侧 OCO 止损单（`placeOcoStop`），但：
+
+- `auto_trade` 的 `live` 模式**仍然只提交限价买单，不自动挂保护单**——要保护请走 `live-runner`
+- `live-runner` 默认 dry-run，需 `--live --confirm LIVE` + `OKX_TRADING_ENABLED=1` + 密钥才会真实下单
+- 真实下单路径**尚未在交易所验证**，必须先用 10 USDT 金丝雀人工确认成交与 OCO 挂单
+
+不要用未验证的执行路径跑大资金。
 
 API key 建议：只开交易权限、关闭提币、绑定 IP、单独子账户、先小额。
 
@@ -223,8 +258,11 @@ API key 建议：只开交易权限、关闭提币、绑定 IP、单独子账户
 
 ```text
 plugin/                 DSH MCP bundle（server + lib + snapshot）
+plugin/lib/quant/       量化层：回测 / 策略 / 执行 / 引擎
+scripts/                回测与引擎 CLI + 自检脚本
 skill/SKILL.md          DSH skill：一键分析入口
 docs/ARCHITECTURE.md    架构与讨论流程
+docs/QUANT.md           量化层设计、守卫与上线门槛
 install.ps1             Windows 安装
 install.sh              macOS/Linux 安装
 ```
@@ -235,6 +273,20 @@ install.sh              macOS/Linux 安装
 cd plugin
 node .\server.mjs --selftest
 node .\server.mjs --analyze --risk balanced --capital 10000
+
+# 量化层自检（三组共 56 项，无需 API key）
+cd ..
+node scripts/engine-selftest.mjs
+node scripts/execution-selftest.mjs
+node scripts/live-runner-selftest.mjs
+
+# 回测（真实 OKX 历史 K 线）
+node scripts/backtest.mjs --symbols BTC,ETH --bars 3000 --grid
+node scripts/backtest-portfolio.mjs --bars 3000 --grid --sizing voltarget
+
+# 引擎（默认 paper / dry-run，不会下单）
+node scripts/runner-cli.mjs --once --dry-run
+node scripts/live-runner-cli.mjs
 ```
 
 ## License
