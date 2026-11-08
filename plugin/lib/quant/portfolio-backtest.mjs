@@ -3,7 +3,15 @@
 
 import { MOMENTUM_DEFAULTS, prepareSeries, momentumScore } from './strategy-momentum.mjs';
 
-export const PORTFOLIO_CFG = Object.freeze({ feeBps: 10, slipBps: 5, initialEquity: 1000 });
+export const PORTFOLIO_CFG = Object.freeze({
+  feeBps: 10,
+  slipBps: 5,
+  initialEquity: 1000,
+  // real OKX spot specs (public/instruments, 2026-11-08)
+  lotSize: { BTC: 0.00000001, ETH: 0.000001 },
+  minSize: { BTC: 0.00001, ETH: 0.0001 },
+  minNotionalUSDT: 0,
+});
 
 function align(frames) {
   const tsSet = new Set();
@@ -38,6 +46,7 @@ export function runPortfolioBacktest(frames, userParams = {}, userCfg = {}) {
   const trades = [];
   const curve = [];
   let barsInMarket = 0;
+  let skipped = 0;
   let daysInMarket = 0;
 
   const closePos = (px, t, reason) => {
@@ -77,11 +86,19 @@ export function runPortfolioBacktest(frames, userParams = {}, userCfg = {}) {
             const maxNotional = cash * (params.maxNotionalPct / 100) * pending.lev;
             const riskQty = (cash * (params.riskPct / 100)) / riskPerUnit;
             let qty = params.sizingMode === 'voltarget' ? maxNotional / px : Math.min(riskQty, maxNotional / px);
-            const notional = qty * px;
-            const fee = notional * feeRate;
-            if (qty > 0 && notional + fee <= cash) {
-              cash -= notional + fee;
-              pos = { symbol: pending.symbol, qty, entry: px, stop, entryFee: fee, entryTs: t };
+            const lot = cfg.lotSize?.[pending.symbol];
+            if (lot) qty = Math.floor(qty / lot) * lot;
+            const minSz = cfg.minSize?.[pending.symbol] || 0;
+            const tooSmall = qty < minSz || qty * px < (cfg.minNotionalUSDT || 0);
+            if (tooSmall) {
+              skipped += 1;
+            } else {
+              const notional = qty * px;
+              const fee = notional * feeRate;
+              if (qty > 0 && notional + fee <= cash) {
+                cash -= notional + fee;
+                pos = { symbol: pending.symbol, qty, entry: px, stop, entryFee: fee, entryTs: t };
+              }
             }
           }
         }
@@ -145,7 +162,7 @@ export function runPortfolioBacktest(frames, userParams = {}, userCfg = {}) {
     curve[curve.length - 1] = { ...curve[curve.length - 1], equity: cash, symbol: null };
   }
 
-  return { params, cfg, trades, curve, metrics: portfolioMetrics({ ts, curve, trades, cfg, barsInMarket, daysInMarket, params, frames }) };
+  return { params, cfg, trades, curve, metrics: { ...portfolioMetrics({ ts, curve, trades, cfg, barsInMarket, daysInMarket, params, frames }), skippedSignals: skipped } };
 }
 
 function stdev(xs) {
