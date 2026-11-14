@@ -16,6 +16,8 @@
   <img alt="License" src="https://img.shields.io/badge/license-MIT-f59e0b" />
 </p>
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/zcheggg-jpg-dsh-finance-mode-ujr6pv?v=b9430f3ee15c40893bf1d223e4ddb93e)](https://m8ven.ai/mcp/zcheggg-jpg-dsh-finance-mode-ujr6pv?s=readme)
+
 > 默认只读 + 模拟盘。**真实交易适配器默认关闭；不会自动下单。**
 >
 > 不是“问一句 ChatGPT 怎么看”，而是把数据、指标、多角色辩论、风险约束、报告和模拟盘串成一条可重复的流水线。
